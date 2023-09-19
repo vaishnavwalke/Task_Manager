@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addUser } from "../features/darkModeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,16 +11,46 @@ const Create = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //load data from local storage
+  // useEffect(() => {
+  //   const storedUsers = localStorage.getItem("users");
+  //   if (storedUsers) {
+  //     dispatch(addUser(JSON.parse(storedUsers)));
+  //   }
+  //   console.log(storedUsers, "get local data");
+  // }, [dispatch]);
+
+  // // saves users data whenever it changes
+
+  // useEffect(() => {
+  //   localStorage.setItem("users", JSON.stringify(users));
+  //   console.log(users, "save local value");
+  // }, [users]);
+  // useEffect(() => {
+  //   localStorage.setItem("tasks", JSON.stringify(users));
+  // }, [users]);
+
+  // const getLocalItems = () => {
+  //   let tasks = localStorage.getItem("tasks");
+  //   if (tasks) {
+  //     console.log(JSON.parse(localStorage.getItem("tasks")), "saved");
+  //     return JSON.parse(localStorage.getItem("tasks"));
+  //   } else {
+  //     return [];
+  //   }
+  // };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(
       addUser({
-        id: users[users.length - 1].id + 1,
+        id: Math.random().toString(36),
         title,
         description,
         status,
       })
     );
+    //getLocalItems();
     navigate("/");
   };
   return (

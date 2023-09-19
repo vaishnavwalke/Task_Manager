@@ -1,13 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { deleteUser } from "../features/darkModeSlice";
+import { addUser, deleteUser } from "../features/darkModeSlice";
+
+// useEffect(() => {
+//   const storedUsers = localStorage.getItem("users");
+//   if (storedUsers) {
+//     dispatch(addUser(JSON.parse(storedUsers)));
+//   }
+//   console.log(storedUsers, "get local data");
+// }, [dispatch]);
+
+// to set the data from local storage
+// const getLocalItems = () => {
+//   let tasks = localStorage.getItem("tasks");
+//   if (tasks) {
+//     //  console.log(JSON.parse(localStorage.getItem("tasks")), "saved");
+//     console.log(tasks, "data got from local");
+//     return JSON.parse(localStorage.getItem("tasks"));
+//   } else {
+//     return [];
+//   }
+// };
+
 const Form = () => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
+
+  // Load data from local storage on page refresh
+  useEffect(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+      const parsedTasks = JSON.parse(storedTasks);
+      dispatch(addUser(parsedTasks));
+    }
+  }, [dispatch]);
+
   const handleDelete = (id) => {
     dispatch(deleteUser({ id: id }));
   };
+  // getLocalItems();
+  //add data to local storage
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(users));
+  }, [users]);
 
   return (
     <div>
